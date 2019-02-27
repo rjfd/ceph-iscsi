@@ -94,6 +94,7 @@ class Settings(object):
         return v
 
     defaults = {"cluster_name": "ceph",
+                "cluster_client_name": "client.admin",
                 "gateway_keyring": "ceph.client.admin.keyring",
                 "time_out": 30,
                 "api_host": "::",
