@@ -1006,14 +1006,16 @@ class LUN(GWObject):
 
     def _rbd_device_map(self):
         if not os.path.exists("/dev/rbd/{}/{}".format(self.pool, self.image)):
-            proc = subprocess.Popen(["rbd", "device", "map", "-p", self.pool, self.image])
+            proc = subprocess.Popen(["rbd", "-n", settings.config.cluster_client_name, "device",
+                                     "map", "-p", self.pool, self.image])
             retcode = proc.wait()
             if retcode != 0:
                 raise CephiSCSIError("Error mapping device {}.{}".format(self.pool, self.image))
 
     def _rbd_device_unmap(self):
         if os.path.exists("/dev/rbd/{}/{}".format(self.pool, self.image)):
-            proc = subprocess.Popen(["rbd", "device", "unmap", "-p", self.pool, self.image])
+            proc = subprocess.Popen(["rbd", "-n", settings.config.cluster_client_name, "device",
+                                     "unmap", "-p", self.pool, self.image])
             retcode = proc.wait()
             if retcode != 0:
                 raise CephiSCSIError("Error unmapping device {}.{}".format(self.pool, self.image))
